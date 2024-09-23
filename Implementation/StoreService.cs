@@ -3,10 +3,8 @@ using WebAPI.Model;
 
 namespace WebAPI.Implementation
 {
-    public class StoreService
+    public class StoreService(DatabaseService databaseService)
     {
-
-        public StoreService() { }
 
         /// <summary>
         /// Returns all loaded items from Database
@@ -15,13 +13,14 @@ namespace WebAPI.Implementation
         /// <exception cref="NotImplementedException"></exception>
         public async Task<IEnumerable<StoreItem>> GetAll()
         {
-            return await Task.Run(() =>
-            {
-                using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
+            //return await Task.Run(() =>
+            //{
+            //    using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
 
-                var col = db.GetCollection<StoreItem>("storeItems");
-                return col.FindAll().ToList();
-            });
+            //    var col = db.GetCollection<StoreItem>("storeItems");
+            //    return col.FindAll().ToList();
+            //});
+            return await databaseService.LoadCollection();
         }
 
         /// <summary>
@@ -32,13 +31,7 @@ namespace WebAPI.Implementation
         /// <exception cref="NotImplementedException"></exception>
         public async Task<StoreItem> GetItemById(int id)
         {
-            return await Task.Run(() =>
-            {
-                using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
-
-                var col = db.GetCollection<StoreItem>("storeItems");
-                return col.FindById(id);
-            });
+            return await databaseService.SelectById(id);
         }
 
         /// <summary>
@@ -49,17 +42,7 @@ namespace WebAPI.Implementation
         /// <exception cref="NotImplementedException"></exception>
         public async Task<StoreItem> CreateStoreItem(StoreItem newItem)
         {
-            return await Task.Run(() =>
-            {
-                using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
-
-                var col = db.GetCollection<StoreItem>("storeItems");
-
-                col.Insert(newItem);
-                db.Commit();
-
-                return newItem;
-            });
+            return await databaseService.CreateItem(newItem);
         }
 
         /// <summary>
@@ -71,19 +54,7 @@ namespace WebAPI.Implementation
         /// <exception cref="NotImplementedException"></exception>
         public async Task<StoreItem> UpdateStoreItem(int id, StoreItem updatedItem)
         {
-            return await Task.Run(() =>
-            {
-                using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
-
-                var col = db.GetCollection<StoreItem>("storeItems");
-                var temp = col.FindById(id);
-
-                temp = updatedItem;
-
-                col.Update(temp);
-
-                return temp;
-            });
+            return await databaseService.UpdateItem(id, updatedItem);
         }
 
         /// <summary>
@@ -94,16 +65,7 @@ namespace WebAPI.Implementation
         /// <exception cref="NotImplementedException"></exception>
         public async Task<StoreItem> DeleteStoreItem(int id)
         {
-            return await Task.Run(() =>
-            {
-                using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
-
-                var col = db.GetCollection<StoreItem>("storeItems");
-                var deletedItem = col.FindById(id);
-                col.Delete(id);
-
-                return deletedItem;
-            });
+            return await databaseService.DeleteItem(id);
         }
     }
 }

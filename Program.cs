@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ///Dependency Injection
 builder.Services.AddSingleton<StoreService>();
+builder.Services.AddSingleton<DatabaseService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
