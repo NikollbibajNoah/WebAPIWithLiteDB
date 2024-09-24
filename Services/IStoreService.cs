@@ -1,27 +1,15 @@
-﻿using LiteDB;
-using WebAPI.Model;
+﻿using WebAPI.Model;
 
-namespace WebAPI.Implementation
+namespace WebAPI.Services
 {
-    public class StoreService(DatabaseService databaseService)
+    public interface IStoreservice
     {
-
         /// <summary>
         /// Returns all loaded items from Database
         /// </summary>
         /// <returns>List of all found items</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<StoreItem>> GetAll()
-        {
-            //return await Task.Run(() =>
-            //{
-            //    using var db = new LiteDatabase(@"C:\Users\Admin\Desktop\testdb.db");
-
-            //    var col = db.GetCollection<StoreItem>("storeItems");
-            //    return col.FindAll().ToList();
-            //});
-            return await databaseService.LoadCollection();
-        }
+        public Task<IEnumerable<StoreItem>> GetAll();
 
         /// <summary>
         /// Returns single found item by given index number
@@ -29,10 +17,7 @@ namespace WebAPI.Implementation
         /// <param name="id">Individual index number</param>
         /// <returns>Found store item</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<StoreItem> GetItemById(int id)
-        {
-            return await databaseService.SelectById(id);
-        }
+        public Task<StoreItem> GetItemById(int id);
 
         /// <summary>
         /// Creates new item for the store
@@ -40,10 +25,7 @@ namespace WebAPI.Implementation
         /// <param name="newItem">New item to insert into Database</param>
         /// <returns>Created and inserted new item</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<StoreItem> CreateStoreItem(StoreItem newItem)
-        {
-            return await databaseService.CreateItem(newItem);
-        }
+        public Task<StoreItem> CreateStoreItem(StoreItem newItem);
 
         /// <summary>
         /// Updates item from store by given index and updated item
@@ -52,10 +34,7 @@ namespace WebAPI.Implementation
         /// <param name="updatedItem">Item to be new updated</param>
         /// <returns>Updated inserted store item</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<StoreItem> UpdateStoreItem(int id, StoreItem updatedItem)
-        {
-            return await databaseService.UpdateItem(id, updatedItem);
-        }
+        public Task<StoreItem> UpdateStoreItem(int id, StoreItem updatedItem);
 
         /// <summary>
         /// Delete item from store by given index number
@@ -63,9 +42,6 @@ namespace WebAPI.Implementation
         /// <param name="id">Individual index number</param>
         /// <returns>Deleted item from store</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<StoreItem> DeleteStoreItem(int id)
-        {
-            return await databaseService.DeleteItem(id);
-        }
+        public Task<StoreItem> DeleteStoreItem(int id);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebAPI.Implementation;
 using WebAPI.Model;
+using WebAPI.Services.Implementation;
 
 namespace WebAPI.Controllers
 {
@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<StoreItem>> DeleteStoreItem(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return BadRequest();
             }

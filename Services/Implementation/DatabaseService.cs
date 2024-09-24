@@ -1,12 +1,11 @@
 ﻿using LiteDB;
 using WebAPI.Model;
-namespace WebAPI.Implementation
+namespace WebAPI.Services.Implementation
 {
-    public class DatabaseService
+    public class DatabaseService() : IDatabaseService
     {
         public string DatabaseName { get; set; } = @"./Store.db";
         public string CollectionName { get; set; } = "storeItems";
-        public DatabaseService() { }
 
         public async Task<IEnumerable<StoreItem>> LoadCollection()
         {
@@ -43,7 +42,7 @@ namespace WebAPI.Implementation
 
                 return newItem;
             });
-        } 
+        }
 
         public async Task<StoreItem> UpdateItem(int id, StoreItem updatedItem)
         {
